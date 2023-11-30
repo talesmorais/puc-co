@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blue
+  template:
+    metadata:
+      labels:
+        app: blue
+        group: color
+    spec:
+      containers:
+      - name: blue
+        image: talesmorais/blue
+        resources:
+          limits:
+            cpu: 200m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: red
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: red
+  template:
+    metadata:
+      labels:
+        app: red
+        group: color
+    spec:
+      containers:
+      - name: red
+        image: talesmorais/red
+        resources:
+          limits:
+            cpu: 200m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: blue

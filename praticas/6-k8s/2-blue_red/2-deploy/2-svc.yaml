@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: blue
+  labels:
+    app: blue
+spec:
+  type: ClusterIP
+  selector:
+    app: blue
+  ports:
+  - port: 80
+    targetPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: red
+  labels:
+    app: red
+spec:
+  type: ClusterIP
+  selector:
+    app: red
+  ports:
+  - port: 80
+    targetPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: color
+  labels:
+    app: color
+    group: color
+spec:
+  type: ClusterIP
+  selector:
+    group: color
+  ports:
+  - port: 80
+    targetPort: 80

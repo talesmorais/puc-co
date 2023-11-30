@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: blue
+  namespace: application
+spec:
+  maxReplicas: 50
+  minReplicas: 10
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 85
+        type: Utilization
+    type: Resource
+  scaleTargetRef:
+    apiVersion: apps/v1beta2
+    kind: Deployment
+    name: blue

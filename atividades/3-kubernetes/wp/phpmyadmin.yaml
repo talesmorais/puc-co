@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin
+  labels:
+    app: phpmyadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+    spec:
+      containers:
+      - name: phpmyadmin
+        image: phpmyadmin
+        env:
+          - name: PMA_HOST
+            value: "10.43.42.135"
+          - name: PMA_PORT
+            value: "3306"
+          - name: PMA_USER
+            value: wordpress
+          - name: PMA_PASSWORD
+            value: wordpress
+        resources:
+          limits:
+            cpu: 200m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin
+  labels:
+    app: phpmyadmin
+spec:
+  type: ClusterIP
+  selector:
+    app: phpmyadmin
+  ports:
+  - port: 80
+    targetPort: 80

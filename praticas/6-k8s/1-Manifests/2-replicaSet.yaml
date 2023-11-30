@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: blue
+  labels:
+    app: blue
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: blue
+  template:
+    metadata:
+      labels:
+        app: blue
+    spec:
+      containers:
+      - name: blue
+        image: talesmorais/blue
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            ephemeral-storage: "50M"
+            cpu: 400m
+            memory: 100Mi
+        livenessProbe:
+          tcpSocket:
+            port: 81
+          successThreshold: 1
+          failureThreshold: 1
+          initialDelaySeconds: 1
+          timeoutSeconds: 1
+          periodSeconds: 1
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          successThreshold: 1
+          failureThreshold: 1
+          initialDelaySeconds: 1
+          timeoutSeconds: 1
+          periodSeconds: 1
+

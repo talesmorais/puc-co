@@ -1,0 +1,92 @@
+kind: Pod
+apiVersion: v1
+metadata:
+    app: blue
+spec:
+  # initContainers:
+  #   - name: initContainer-command
+  #     image: busybox:1.28
+  #     command: ['sh', '-c', "ls -lha"]
+  #   - name: initContainer-runContainer
+  #     image: helloworld
+
+  # securityContext:
+  #   runAsUser: 1000
+  #   runAsGroup: 3000
+  #   fsGroup: 2000
+  volumes: # Criação de volume
+    - name: meu-volume
+      emptyDir: {}
+  containers:
+  - name: blue
+    image: talesmorais/blue
+    imagePullPolicy: Always # Always | IfNotPresent | Never
+    ports:
+    - containerPort: 80
+      name: app
+    env:
+    - name: ENV_VAR1
+      value: Value1
+    - name: ENV_VAR2
+      value: Value2
+    envFrom:
+    - configMapRef:
+        name: blue
+    - secretRef:
+        name: blue
+    resources:
+      requests:
+        ephemeral-storage: "10M" # aspas
+        cpu: 100m
+        memory: 150Mi
+      limits:
+        ephemeral-storage: 500M # unidades de medida
+        cpu: 500m
+        memory: 500Mi
+    volumeMounts: # Montagem do volume
+      - name: meu-volume
+        mountPath: /tales
+    securityContext:
+      privileged: true
+      runAsUser: 1000 # User diferente do pod
+    livenessProbe:
+      tcpSocket:
+        port: 80
+      # exec:
+      #   command: [sh, -c, 'cat /var/data/healthz']
+      successThreshold: 1
+      failureThreshold: 3
+      initialDelaySeconds: 5 # boot
+      periodSeconds: 10
+      timeoutSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+        httpHeaders:
+        - name: Custom-Header
+          value: MyValue
+      successThreshold: 1
+      failureThreshold: 1
+      initialDelaySeconds: 10
+      periodSeconds: 10
+      timeoutSeconds: 10
+
+---
+
+# kind: Pod
+# apiVersion: v1
+# metadata:
+#   name: outroPod
+#   labels:
+#     name: exemplo
+# spec:
+#   containers:
+#   - name: outroPod
+#     image: exemplo
+#     resources:
+#       limits:
+#         memory: "128Mi"
+#         cpu: "500m"
+#     ports:
+#       - containerPort: 80

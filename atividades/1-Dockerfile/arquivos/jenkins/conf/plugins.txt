@@ -1,0 +1,16 @@
+build-timeout:1.31
+command-launcher:107.v773860566e2e
+commons-text-api:1.10.0-78.v3e7b_ea_d5a_fe1
+docker-workflow:572.v950f58993843
+git:5.2.0
+git-server:99.va_0826a_b_cdfa_d
+jdk-tool:73.vddf737284550
+matrix-auth:3.2.1
+miniorange-saml-sp:2.4.0
+parameterized-trigger:2.46
+pipeline-build-step:516.v8ee60a_81c5b_9
+pipeline-stage-view:2.33
+schedule-build:502.v9379e178e65b_
+snakeyaml-api:2.2-111.vc6598e30cc65
+timestamper:1.26
+ws-cleanup:0.45

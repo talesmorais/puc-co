@@ -1,0 +1,78 @@
+ROOTFS
+    curl -o alpine.tar.gz http://dl-cdn.alpinelinux.org/alpine/v3.16/releases/x86_64/alpine-minirootfs-3.16.0-x86_64.tar.gz
+    mkdir alpine ; tar -xzvf alpine.tar.gz -C alpine
+    systemd-run --slice=tales.slice --uid=tales -q --shell
+    sudo unshare --fork --pid --mount --mount-proc=/proc --uts --kill-child --time  --boottime 10000 --ipc --net chroot alpine /bin/sh
+        hostname tales ; hostname
+        ls -lha
+        date
+        ps aux
+
+---------------------
+
+docker container run nginx:1.24
+nomes
+    https://github.com/docker/docker-ce/blob/master/components/engine/pkg/namesgenerator/names-generator.go
+        neumann
+        curie
+        einstein
+        lovelace
+        turing
+        torvalds
+        satoshi
+        edison
+        davinci
+        darwin
+
+docker container run -d nginx:1.24
+
+docker container ls
+
+docker container logs <id>
+docker container stop
+docker container start
+
+docker container run -d -p 9000:80 nginx:1.25
+http://localhost:9000/
+
+docker container run -it alpine
+    ctrl+d | exit
+        sai e encerra
+    ctrl+p ; ctrl+q 
+        sai e deixa rodando
+
+docker run -d --name nginx nginx
+docker container inspect nginx -f {{.NetworkSettings.Networks.bridge.IPAddress}}
+docker container inspect nginx -f {{.Config.Image}}
+docker container inspect nginx -f {{.Mounts}}
+docker container inspect nginx -f {{.State.Status}}
+docker container inspect nginx | grep LogPath
+sudo cat <arquivo de log>
+
+docker container exec -it nginx /bin/bash
+
+docker container stats
+
+docker container top nginx
+
+docker system prune -a
+
+
+docker run -v /tmp/tales:/tales nginx
+docker run -v tales:/var nginx
+docker volume ls
+
+docker run --name hello hello-world
+docker export hello > hello.tar
+mkdir /tmp/hello ; tar -xvf hello.tar --directory /tmp/hello
+cd /tmp/hello ; ls -lha
+
+inspect
+    docker run -d --name sre -p 9090:80 nginx  
+
+
+
+SEGURANÇA
+    workbenck
+        https://github.com/docker/docker-bench-security
+        docker-bench-security.sh
